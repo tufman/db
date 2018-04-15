@@ -1,4 +1,4 @@
-package DB;
+package jdbc;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
