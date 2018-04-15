@@ -24,9 +24,9 @@ public class DBBase {
         System.out.println(" Welcome to " + title + " Menu ");
         System.out.println("##########################");
         // Set dataSource Properties
-        dataSource.setServerName("135.76.211.0");
+        dataSource.setServerName("localhost");
         dataSource.setPortNumber(3306);
-        dataSource.setDatabaseName("coursedb");
+        dataSource.setDatabaseName("mysql1");
         dataSource.setUser("root");
         dataSource.setPassword("Aa123456");
 
@@ -59,3 +59,10 @@ public class DBBase {
                 ds.setDatabaseName("coursedb");
                 ds.setUser("root");
                 ds.setPassword("Aa123456");*/
+
+//Shay
+//dataSource.setServerName("localhost");
+//        dataSource.setPortNumber(3306);
+//        dataSource.setDatabaseName("mysql1");
+//        dataSource.setUser("root");
+//        dataSource.setPassword("Aa123456");
