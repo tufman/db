@@ -3,17 +3,21 @@ package jdbc;
 import java.sql.*;
 
 
-public class DBEmployee extends DBBase {
+public class DBEmployee extends DBBase implements DBIterface {
 
-
+    private Connection con;
 
     public DBEmployee() throws SQLException{
+
         super("Employee");
+
     }
 
-    void presentUserMenu() throws SQLException{
+    @Override
+    public void presentUserMenu() throws SQLException{
         boolean run = true;
         while (run){
+            con = super.getCon();
             System.out.println(ANSI_RESET + "Please select:");
             System.out.println("[1] - Present All Employees; [2] - Insert a new Employee; [3] - Update an Employee; [4] - Delete an Employee; [9] - Exit");
             int userSelection = scanner.nextInt();
@@ -132,4 +136,6 @@ public class DBEmployee extends DBBase {
             }
         }
     }
+
+
 }

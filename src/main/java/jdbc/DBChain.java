@@ -2,15 +2,19 @@ package jdbc;
 
 import java.sql.*;
 
-public class DBChain extends DBBase {
+public class DBChain extends DBBase implements DBIterface{
+
+    private Connection con;
 
     public DBChain() throws SQLException {
         super("Chain");
+        2
     }
-
-    void presentUserMenu() throws SQLException{
+    @Override
+    public void presentUserMenu() throws SQLException{
         boolean run = true;
         while (run){
+            con =super.getCon();
             System.out.println(ANSI_RESET + "Please select:");
             System.out.println("[1] - Present All Chains; [2] - Insert a new Chain; [3] - Update a Chain; [4] - Delete a Chain; [9] - Exit");
             int userSelection = scanner.nextInt();

@@ -11,8 +11,10 @@ public class DBBase {
     final String ANSI_RED = "\u001B[31m";
     final String ANSI_GREEN = "\u001B[32m";
 
-    Connection con;
+    private Connection con;
     Scanner scanner = new Scanner(System.in);
+
+
 
 
     public DBBase(String title) throws SQLException{
@@ -22,9 +24,9 @@ public class DBBase {
         System.out.println(" Welcome to " + title + " Menu ");
         System.out.println("##########################");
         // Set dataSource Properties
-        dataSource.setServerName("localhost");
+        dataSource.setServerName("135.76.211.0");
         dataSource.setPortNumber(3306);
-        dataSource.setDatabaseName("mysql1");
+        dataSource.setDatabaseName("coursedb");
         dataSource.setUser("root");
         dataSource.setPassword("Aa123456");
 
@@ -33,8 +35,27 @@ public class DBBase {
         presentUserMenu();
     }
 
+
+    public Connection getCon() {
+        return con;
+    }
+
     void presentUserMenu() throws SQLException{
         System.out.println("In case you see this message, you should override this function... :)");
     }
 
 }
+
+
+
+//TODO : remove !!
+
+//Oded's DB Connection :  '
+/*
+
+    MysqlDataSource ds = new MysqlDataSource();
+        ds.setServerName("135.76.211.0");
+                ds.setPort(3306);
+                ds.setDatabaseName("coursedb");
+                ds.setUser("root");
+                ds.setPassword("Aa123456");*/

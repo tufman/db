@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class DBMenu {
+public class DBMenu{
 
     private Connection con;
     private Scanner scanner = new Scanner(System.in);
@@ -51,4 +51,7 @@ public class DBMenu {
             }
         }
     }
+
+
+
 }
