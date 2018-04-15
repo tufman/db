@@ -8,7 +8,7 @@ public class DBChain extends DBBase implements DBIterface{
 
     public DBChain() throws SQLException {
         super("Chain");
-        2
+        
     }
     @Override
     public void presentUserMenu() throws SQLException{
