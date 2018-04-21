@@ -24,11 +24,11 @@ public class DBBase {
         System.out.println(" Welcome to " + title + " Menu ");
         System.out.println("##########################");
         // Set dataSource Properties
-        dataSource.setServerName("135.76.211.0");
+        dataSource.setServerName("localhost");
         dataSource.setPortNumber(3306);
-        dataSource.setDatabaseName("coursedb");
+        dataSource.setDatabaseName("study");
         dataSource.setUser("root");
-        dataSource.setPassword("Aa123456");
+        dataSource.setPassword("root");
 
         con = dataSource.getConnection();
 

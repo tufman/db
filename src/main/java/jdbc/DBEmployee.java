@@ -7,6 +7,7 @@ public class DBEmployee extends DBBase implements DBIterface {
 
     private Connection con;
 
+
     public DBEmployee() throws SQLException{
 
         super("Employee");
@@ -23,7 +24,7 @@ public class DBEmployee extends DBBase implements DBIterface {
             int userSelection = scanner.nextInt();
             if (userSelection == 1){
                 presentAllEmployees();
-                //presentSpecificEmployee(0);
+
             }
             if (userSelection == 2){
                 addNewEmployee();
@@ -52,9 +53,12 @@ public class DBEmployee extends DBBase implements DBIterface {
             try (PreparedStatement preparedStatement = con.prepareStatement(insertStr)) {
                 preparedStatement.setString(1, idToDelete); // assume we have a String lastName
                 preparedStatement.executeUpdate();
+                System.out.println("Employee id " + idToDelete + " was deleted");
             }
         }
-        System.out.println("Employee id " + idToDelete + " was deleted");
+        if (deleteApproval.equalsIgnoreCase("N") || deleteApproval.equalsIgnoreCase("no")) {
+            System.out.println("Chain id " + idToDelete + " was not deleted - canceled by user");
+        }
     }
 
     private void presentAllEmployees() throws SQLException{
@@ -72,6 +76,7 @@ public class DBEmployee extends DBBase implements DBIterface {
                     System.out.print(rs.getObject(i) + "\t\t");
                 }
                 System.out.println();
+
             }
         }
     }
@@ -83,12 +88,20 @@ public class DBEmployee extends DBBase implements DBIterface {
         String firstName = scanner.next();
         System.out.println("Please enter Last Name:");
         String lastName = scanner.next();
+        System.out.println("Please enter Role Number");
+        int role = scanner.nextInt();
+        System.out.println("Please enter chain id/Management id(4) for Employee:");
+        int chainId = scanner.nextInt();
+        System.out.println("Please enter Store ID ");
+        int store_id = scanner.nextInt();
 
-        //INSERT into employee (FN, LN) VALUES ("Shay1", "Tufman1")
-        String insertStr = "INSERT into employee (first_name, last_name) VALUES (?, ?)";
+        String insertStr = "INSERT into employee (first_name, last_name, role,chain_id,store_id ) VALUES (?,?,?,?,?)";
         try(PreparedStatement preparedStatement = con.prepareStatement(insertStr)){
-            preparedStatement.setString(1, firstName); // assume we have a String lastName
-            preparedStatement.setString(2, lastName); //  // assume we have a String firstName
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setInt(3, role);
+            preparedStatement.setInt(4, chainId);
+            preparedStatement.setInt(5, store_id);
             preparedStatement.executeUpdate();
         }
     }
@@ -102,12 +115,21 @@ public class DBEmployee extends DBBase implements DBIterface {
         String newFirstNameToUpdate = scanner.next();
         System.out.println("Enter New LastName to update:");
         String newlastNameToUpdate = scanner.next();
+        System.out.println("Enter role to update:");
+        int role = scanner.nextInt();
+        System.out.println("Please enter chain id/Management id(4) for Employee to update:");
+        int chainId = scanner.nextInt();
+        System.out.println("Enter storeid to update:");
+        int storeId = scanner.nextInt();
 
-        String insertStr = "UPDATE employee Set first_name = ?, last_name = ? where id = ?";
+        String insertStr = "UPDATE employee Set first_name =?, last_name=? ,role =?, chain_id=?,store_id=? where id = ?";
         try(PreparedStatement preparedStatement = con.prepareStatement(insertStr)){
-            preparedStatement.setString(1, newFirstNameToUpdate); // assume we have a String lastName
-            preparedStatement.setString(2, newlastNameToUpdate); //  // assume we have a String firstName
-            preparedStatement.setInt(3, idToUpdate); //  // assume we have a String firstName
+            preparedStatement.setString(1, newFirstNameToUpdate);
+            preparedStatement.setString(2, newlastNameToUpdate);
+            preparedStatement.setInt(3, role);
+            preparedStatement.setInt(4, chainId);
+            preparedStatement.setInt(5, storeId);
+            preparedStatement.setInt(6, idToUpdate);
             preparedStatement.executeUpdate();
         }
         System.out.println("New Employee Details:");
