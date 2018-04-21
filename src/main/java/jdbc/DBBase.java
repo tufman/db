@@ -59,3 +59,10 @@ public class DBBase {
                 ds.setDatabaseName("coursedb");
                 ds.setUser("root");
                 ds.setPassword("Aa123456");*/
+
+//Shay
+//dataSource.setServerName("localhost");
+//        dataSource.setPortNumber(3306);
+//        dataSource.setDatabaseName("mysql1");
+//        dataSource.setUser("root");
+//        dataSource.setPassword("Aa123456");
