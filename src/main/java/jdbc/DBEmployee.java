@@ -8,47 +8,51 @@ public class DBEmployee extends DBBase implements DBIterface {
     private Connection con;
 
 
-    public DBEmployee() throws SQLException{
+    public DBEmployee() throws SQLException {
 
         super("Employee");
 
     }
 
     @Override
-    public void presentUserMenu() throws SQLException{
+    public void presentUserMenu() throws SQLException {
         boolean run = true;
-        while (run){
+        while (run) {
             con = super.getCon();
             System.out.println(ANSI_RESET + "Please select:");
-            System.out.println("[1] - Present All Employees; [2] - Insert a new Employee; [3] - Update an Employee; [4] - Delete an Employee; [9] - Exit");
+            System.out.println("[1] - Present All Employees; [2] - Insert a new Employee; [3] - Update an Employee; [4] - Delete an Employee; [5] - Get All Employees for chain;   [9] - Exit");
             int userSelection = scanner.nextInt();
-            if (userSelection == 1){
+            if (userSelection == 1) {
                 presentAllEmployees();
 
             }
-            if (userSelection == 2){
+            if (userSelection == 2) {
                 addNewEmployee();
             }
-            if (userSelection == 3){
+            if (userSelection == 3) {
                 updateEmployee();
             }
-            if (userSelection == 4){
+            if (userSelection == 4) {
                 deleteEmployee();
             }
-            if (userSelection == 9){
+            if (userSelection == 5) {
+                getEmployeeByChainID();
+            }
+            if (userSelection == 9) {
                 run = false;
             }
         }
 
     }
 
-    private void deleteEmployee() throws SQLException{
+
+    private void deleteEmployee() throws SQLException {
         System.out.println("Enter Employee id to delete:");
         String idToDelete = scanner.next();
         System.out.println("Are you sure you want to delete Employee ID: " + idToDelete + "? (Y/N)");
         presentSpecificEmployee(Integer.valueOf(idToDelete));
         String deleteApproval = scanner.next();
-        if (deleteApproval.equalsIgnoreCase("Y") || deleteApproval.equalsIgnoreCase( "yes")) {
+        if (deleteApproval.equalsIgnoreCase("Y") || deleteApproval.equalsIgnoreCase("yes")) {
             String insertStr = "DELETE from employee where id = ?";
             try (PreparedStatement preparedStatement = con.prepareStatement(insertStr)) {
                 preparedStatement.setString(1, idToDelete); // assume we have a String lastName
@@ -61,18 +65,18 @@ public class DBEmployee extends DBBase implements DBIterface {
         }
     }
 
-    private void presentAllEmployees() throws SQLException{
-        try(Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * from employee")){
+    private void presentAllEmployees() throws SQLException {
+        try (Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * from employee")) {
             ResultSetMetaData metadata = rs.getMetaData();
             System.out.println(ANSI_GREEN + " All existing employees in the System");
             int cols = metadata.getColumnCount();
-            for(int i=1; i<=cols; ++i) {
+            for (int i = 1; i <= cols; ++i) {
                 System.out.print(metadata.getColumnName(i) + "\t\t");
             }
             System.out.println();
             while (rs.next()) {
-                for(int i=1; i<=cols; ++i) {
+                for (int i = 1; i <= cols; ++i) {
                     System.out.print(rs.getObject(i) + "\t\t");
                 }
                 System.out.println();
@@ -96,7 +100,7 @@ public class DBEmployee extends DBBase implements DBIterface {
         int store_id = scanner.nextInt();
 
         String insertStr = "INSERT into employee (first_name, last_name, role,chain_id,store_id ) VALUES (?,?,?,?,?)";
-        try(PreparedStatement preparedStatement = con.prepareStatement(insertStr)){
+        try (PreparedStatement preparedStatement = con.prepareStatement(insertStr)) {
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
             preparedStatement.setInt(3, role);
@@ -106,7 +110,7 @@ public class DBEmployee extends DBBase implements DBIterface {
         }
     }
 
-    private void updateEmployee() throws SQLException{
+    private void updateEmployee() throws SQLException {
         System.out.println("Enter Employee id to update:");
         int idToUpdate = scanner.nextInt();
         System.out.println("Current Employee Details:");
@@ -123,7 +127,7 @@ public class DBEmployee extends DBBase implements DBIterface {
         int storeId = scanner.nextInt();
 
         String insertStr = "UPDATE employee Set first_name =?, last_name=? ,role =?, chain_id=?,store_id=? where id = ?";
-        try(PreparedStatement preparedStatement = con.prepareStatement(insertStr)){
+        try (PreparedStatement preparedStatement = con.prepareStatement(insertStr)) {
             preparedStatement.setString(1, newFirstNameToUpdate);
             preparedStatement.setString(2, newlastNameToUpdate);
             preparedStatement.setInt(3, role);
@@ -137,20 +141,20 @@ public class DBEmployee extends DBBase implements DBIterface {
 
     }
 
-    private void presentSpecificEmployee(int idToUpdate) throws SQLException{
+    private void presentSpecificEmployee(int idToUpdate) throws SQLException {
 
         String insertStr = "SELECT * from employee where id = ?";
-        try(PreparedStatement preparedStatement = con.prepareStatement(insertStr)){
+        try (PreparedStatement preparedStatement = con.prepareStatement(insertStr)) {
             preparedStatement.setInt(1, idToUpdate); // assume we have a String lastName
-            try(ResultSet rs = preparedStatement.executeQuery()){
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 ResultSetMetaData metadata = rs.getMetaData();
                 int cols = metadata.getColumnCount();
-                for(int i=1; i<=cols; ++i) {
+                for (int i = 1; i <= cols; ++i) {
                     System.out.print(metadata.getColumnName(i) + "\t\t");
                 }
                 System.out.println();
                 while (rs.next()) {
-                    for(int i=1; i<=cols; ++i) {
+                    for (int i = 1; i <= cols; ++i) {
                         System.out.print(rs.getObject(i) + "\t\t");
                     }
                     System.out.println();
@@ -159,5 +163,28 @@ public class DBEmployee extends DBBase implements DBIterface {
         }
     }
 
-
+        private void getEmployeeByChainID() throws SQLException {
+            System.out.println("Please enter chain id/Management id(4) for Employee:");
+            int chainId = scanner.nextInt();
+            String sqlStr = "SELECT * FROM employee where chain_id= ?";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sqlStr)) {
+                preparedStatement.setInt(1, chainId);
+                try (ResultSet rs = preparedStatement.executeQuery()) {
+                    ResultSetMetaData metadata = rs.getMetaData();
+                    int cols = metadata.getColumnCount();
+                    for (int i = 1; i <= cols; ++i) {
+                        System.out.print(metadata.getColumnName(i) + "\t\t");
+                    }
+                    System.out.println();
+                    while (rs.next()) {
+                        for (int i = 1; i <= cols; ++i) {
+                            System.out.print(rs.getObject(i) + "\t\t");
+                        }
+                        System.out.println();
+                    }
+                }
+            }
+        }
 }
+
+

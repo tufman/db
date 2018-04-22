@@ -118,7 +118,7 @@ public class DBChain extends DBBase implements DBIterface {
 
         String insertStr = "SELECT * from chain where id = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(insertStr)) {
-            preparedStatement.setInt(1, idToUpdate); // assume we have a String lastName
+            preparedStatement.setInt(1, idToUpdate);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 ResultSetMetaData metadata = rs.getMetaData();
                 int cols = metadata.getColumnCount();
