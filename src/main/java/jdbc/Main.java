@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-        DBMenu dbMenu = new DBMenu();
+        DBMenu dbMenu = new DBMenu(scanner);
         dbMenu.presentMainMenu();
     }
 }

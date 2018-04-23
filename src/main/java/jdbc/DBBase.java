@@ -12,12 +12,12 @@ public class DBBase {
     final String ANSI_GREEN = "\u001B[32m";
 
     private Connection con;
-    Scanner scanner = new Scanner(System.in);
+    Scanner scanner;
 
 
 
 
-    public DBBase(String title) throws SQLException{
+    public DBBase(String title , Scanner scanner) throws SQLException{
         MysqlDataSource dataSource = new MysqlDataSource();
 
         System.out.println(ANSI_RED + "##########################");
@@ -31,7 +31,7 @@ public class DBBase {
         dataSource.setPassword("root");
 
         con = dataSource.getConnection();
-
+        this.scanner = scanner; 
         presentUserMenu();
     }
 
@@ -46,23 +46,3 @@ public class DBBase {
 
 }
 
-
-
-//TODO : remove !!
-
-//Oded's DB Connection :  '
-/*
-
-    MysqlDataSource ds = new MysqlDataSource();
-        ds.setServerName("135.76.211.0");
-                ds.setPort(3306);
-                ds.setDatabaseName("coursedb");
-                ds.setUser("root");
-                ds.setPassword("Aa123456");*/
-
-//Shay
-//dataSource.setServerName("localhost");
-//        dataSource.setPortNumber(3306);
-//        dataSource.setDatabaseName("mysql1");
-//        dataSource.setUser("root");
-//        dataSource.setPassword("Aa123456");

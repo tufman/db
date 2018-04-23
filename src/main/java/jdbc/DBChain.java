@@ -1,13 +1,14 @@
 package jdbc;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class DBChain extends DBBase implements DBIterface {
 
     private Connection con;
 
-    public DBChain() throws SQLException {
-        super("Chain");
+    public DBChain(Scanner scanner) throws SQLException {
+        super("Chain" , scanner);
 
     }
 
@@ -18,7 +19,7 @@ public class DBChain extends DBBase implements DBIterface {
             con = super.getCon();
             System.out.println(ANSI_RESET + "Please select:");
             System.out.println("[1] - Present All Chains; [2] - Insert a new Chain; [3] - Update a Chain; [4] - Delete a Chain; [9] - Exit");
-            int userSelection = scanner.nextInt();
+            int userSelection = Integer.valueOf(scanner.nextLine());
             if (userSelection == 1) {
                 presentAllChains();
 
@@ -41,9 +42,9 @@ public class DBChain extends DBBase implements DBIterface {
 
     private void addChain() throws SQLException {
         System.out.println("Enter Chain name:");
-        String chainName = scanner.next();
+        String chainName = scanner.nextLine();
         System.out.println("Enter Chain description:");
-        String chainDesc = scanner.next();
+        String chainDesc = scanner.nextLine();
 
         String insertStr = "INSERT into chain (name, description) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(insertStr)) {
@@ -60,12 +61,12 @@ public class DBChain extends DBBase implements DBIterface {
             System.out.println(ANSI_GREEN + " All existing chains in the System");
             int cols = metadata.getColumnCount();
             for (int i = 1; i <= cols; ++i) {
-                System.out.print(metadata.getColumnName(i) + "\t\t");
+                System.out.printf("%15s",metadata.getColumnName(i));
             }
             System.out.println();
             while (rs.next()) {
                 for (int i = 1; i <= cols; ++i) {
-                    System.out.print(rs.getObject(i) + "\t\t");
+                    System.out.printf("%15s",rs.getObject(i));
                 }
                 System.out.println();
             }
@@ -74,17 +75,17 @@ public class DBChain extends DBBase implements DBIterface {
 
     public void displayAllChains() throws SQLException {
         try (Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * from chain")) {
+            ResultSet rs = stmt.executeQuery("SELECT * from chain")) {
             ResultSetMetaData metadata = rs.getMetaData();
             System.out.println(ANSI_GREEN + " All existing chains in the System");
             int cols = metadata.getColumnCount();
             for (int i = 1; i <= cols; ++i) {
-                System.out.print(metadata.getColumnName(i) + "\t\t");
+                System.out.printf("%40s",metadata.getColumnName(i));
             }
             System.out.println();
             while (rs.next()) {
                 for (int i = 1; i <= cols; ++i) {
-                    System.out.print(rs.getObject(i) + "\t\t");
+                    System.out.printf("%20s",rs.getObject(i));
                 }
                 System.out.println();
             }
@@ -94,13 +95,13 @@ public class DBChain extends DBBase implements DBIterface {
 
     private void updateChain() throws SQLException {
         System.out.println("Enter chain id to update:");
-        int idToUpdate = scanner.nextInt();
+        int idToUpdate = Integer.valueOf(scanner.nextLine());
         System.out.println("Current chain Details:");
         presentSpecificChain(idToUpdate);
         System.out.println("Enter  chain name to update:");
-        String newChainName = scanner.next();
+        String newChainName = scanner.nextLine();
         System.out.println("Enter description to update:");
-        String newChainDescription = scanner.next();
+        String newChainDescription = scanner.nextLine();
 
         String insertStr = "UPDATE chain Set name =?, description=? where id = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(insertStr)) {
@@ -122,13 +123,14 @@ public class DBChain extends DBBase implements DBIterface {
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 ResultSetMetaData metadata = rs.getMetaData();
                 int cols = metadata.getColumnCount();
+
                 for (int i = 1; i <= cols; ++i) {
-                    System.out.print(metadata.getColumnName(i) + "\t\t");
+                    System.out.printf("%40s",metadata.getColumnName(i));
                 }
                 System.out.println();
                 while (rs.next()) {
                     for (int i = 1; i <= cols; ++i) {
-                        System.out.print(rs.getObject(i) + "\t\t");
+                        System.out.printf("%15s",rs.getObject(i));
                     }
                     System.out.println();
                 }
@@ -138,10 +140,10 @@ public class DBChain extends DBBase implements DBIterface {
 
     private void deleteChain() throws SQLException {
         System.out.println("Enter Chain id to delete:");
-        String idToDelete = scanner.next();
+        String idToDelete = scanner.nextLine();
         System.out.println("Are you sure you want to delete Chain ID: " + idToDelete + "? (Y/N)");
         presentSpecificChain(Integer.valueOf(idToDelete));
-        String deleteApproval = scanner.next();
+        String deleteApproval = scanner.nextLine();
         if (deleteApproval.equalsIgnoreCase("Y") || deleteApproval.equalsIgnoreCase("yes")) {
             String insertStr = "DELETE from chain where id = ?";
             try (PreparedStatement preparedStatement = con.prepareStatement(insertStr)) {

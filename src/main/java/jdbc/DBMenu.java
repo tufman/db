@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class DBMenu {
 
     private Connection con;
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
 
     private DBEmployee dbEmployee;
     private DBChain dbChain;
@@ -17,12 +17,11 @@ public class DBMenu {
     private final String ANSI_RED = "\u001B[31m";
     private final String ANSI_GREEN = "\u001B[32m";
 
-    public DBMenu() throws SQLException {
-
-
+    public DBMenu(Scanner scanner) throws SQLException {
         System.out.println(ANSI_RED + "##########################");
         System.out.println(" Welcome to the DB Menu ");
         System.out.println("##########################");
+        this.scanner = scanner;
     }
 
     public void presentMainMenu() throws SQLException {
@@ -32,16 +31,16 @@ public class DBMenu {
             System.out.println(ANSI_RESET + "Please select:");
             System.out.println("[1] - Employees; [2] - Chains; [3] - Stores; [9] - Exit");
 
-            int userSelection = scanner.nextInt();
+            int userSelection = Integer.valueOf(scanner.nextLine());
             if (userSelection == 1) {
-                dbEmployee = new DBEmployee();
+                dbEmployee = new DBEmployee(scanner);
                 //presentSpecificEmployee(0);
             }
             if (userSelection == 2) {
-                dbChain = new DBChain();
+                dbChain = new DBChain(scanner);
             }
             if (userSelection == 3) {
-                dbStore = new DBStore();
+                dbStore = new DBStore(scanner);
             }
                 if (userSelection == 9) {
                     System.out.println("Thank you for using DB Executer");
