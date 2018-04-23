@@ -40,13 +40,9 @@ public class DBStore extends DBBase implements DBIterface {
 			}
 			if (userSelection == 6) {
 				displayStoresByMallGroupId();
-				// TODO:
-				// need to understand ???//
 			}
 			if (userSelection == 7) {
 				getAllStoreDetails();
-				// TODO:
-				// need to undestand request //
 			}
 			if (userSelection == 9) {
 				run = false;
@@ -132,12 +128,12 @@ public class DBStore extends DBBase implements DBIterface {
 				ResultSetMetaData metadata = rs.getMetaData();
 				int cols = metadata.getColumnCount();
 				for (int i = 1; i <= cols; ++i) {
-					System.out.printf("%30s", metadata.getColumnName(i) + "\t\t");
+					System.out.printf("%15s", metadata.getColumnName(i) + "\t\t");
 				}
 				System.out.println();
 				while (rs.next()) {
 					for (int i = 1; i <= cols; ++i) {
-						System.out.printf("%30s", rs.getObject(i) + "\t\t");
+						System.out.printf("%15s", rs.getObject(i) + "\t\t");
 					}
 					System.out.println();
 				}
@@ -267,9 +263,6 @@ public class DBStore extends DBBase implements DBIterface {
 				Map<String, Object> storeDetails = showSpecificStore(storeId);
 				System.out.println("Store Details : ");
 				for (Map.Entry<String, Object> columnName : storeDetails.entrySet()) {
-					if (columnName.getKey().equals("id")) {
-						System.out.println("Store ID: " + columnName.getValue());
-					}
 					if (columnName.getKey().equals("name")) {
 						System.out.println("Store Name : " + columnName.getValue());
 					}
@@ -282,16 +275,9 @@ public class DBStore extends DBBase implements DBIterface {
 							preparedStatement.setInt(1, (Integer) columnName.getValue());
 							try (ResultSet rs = preparedStatement.executeQuery()) {
 								ResultSetMetaData metadata = rs.getMetaData();
-
 								int cols = metadata.getColumnCount();
-								for (int i = 1; i <= cols; ++i) {
-									// System.out.print(metadata.getColumnName(i) + "\t\t");
-
-								}
-								// System.out.println();
 								while (rs.next()) {
 									for (int i = 1; i <= cols; ++i) {
-										// System.out.print(rs.getObject(i) + "\t\t");
 										System.out.println("Address for Store ID [" + storeId + "]  is : " + rs.getObject(i));
 									}
 									System.out.println();
@@ -314,7 +300,6 @@ public class DBStore extends DBBase implements DBIterface {
 								while (rs.next()) {
 									for (int i = 1; i <= cols; ++i) {
 										System.out.println("Chain Name for Store ID [" + storeId + "]  is : " + rs.getObject(i));
-
 									}
 
 								}
