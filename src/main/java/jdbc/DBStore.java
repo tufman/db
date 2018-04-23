@@ -200,6 +200,24 @@ public class DBStore extends DBBase implements DBIterface {
 
 
     private void displayStoresByMallId() throws SQLException {
+        System.out.println("Display all mall options : ");
+        String mallTable = "Select * from  mall ";
+        try (PreparedStatement preparedStatement = con.prepareStatement(mallTable)) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                ResultSetMetaData metadata = rs.getMetaData();
+                int cols = metadata.getColumnCount();
+                for (int i = 1; i <= cols; ++i) {
+                    System.out.print(metadata.getColumnName(i) + "\t\t");
+                }
+                System.out.println();
+                while (rs.next()) {
+                    for (int i = 1; i <= cols; ++i) {
+                        System.out.print(rs.getObject(i) + "\t\t");
+                    }
+                    System.out.println();
+                }
+            }
+        }
         System.out.println("Enter mall id :");
         int idToFind = scanner.nextInt();
         String insertStr = "Select *  from store LEFT JOIN mall2store ON  store.id = store_id WHERE mall_id = ? ;";
@@ -275,6 +293,7 @@ public class DBStore extends DBBase implements DBIterface {
     }
 
     private void getAllStoreDetails() throws SQLException {
+        presentAllStores();
         System.out.println("To view all Store Details  - Enter Store id :");
         int storeId = scanner.nextInt();
         Map<String, Object> storeDetails = showSpecificStore(storeId);

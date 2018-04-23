@@ -94,7 +94,7 @@ public class DBEmployee extends DBBase implements DBIterface {
         String lastName = scanner.next();
         System.out.println("Please enter Role Number");
         int role = scanner.nextInt();
-        System.out.println("Please enter chain id/Management id(4) for Employee:");
+        System.out.println("Please enter chain id/Management id(17) for Employee:");
         int chainId = scanner.nextInt();
         System.out.println("Please enter Store ID ");
         int store_id = scanner.nextInt();
@@ -121,7 +121,7 @@ public class DBEmployee extends DBBase implements DBIterface {
         String newlastNameToUpdate = scanner.next();
         System.out.println("Enter role to update:");
         int role = scanner.nextInt();
-        System.out.println("Please enter chain id/Management id(4) for Employee to update:");
+        System.out.println("Please enter chain id/Management id(17) for Employee to update:");
         int chainId = scanner.nextInt();
         System.out.println("Enter storeid to update:");
         int storeId = scanner.nextInt();
@@ -164,7 +164,7 @@ public class DBEmployee extends DBBase implements DBIterface {
     }
 
         private void getEmployeeByChainID() throws SQLException {
-            System.out.println("Please enter chain id/Management id(4) for Employee:");
+            System.out.println("Please enter chain id/Management id(17) for Employee:");
             int chainId = scanner.nextInt();
             String sqlStr = "SELECT * FROM employee where chain_id= ?";
             try (PreparedStatement preparedStatement = con.prepareStatement(sqlStr)) {
